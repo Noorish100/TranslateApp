@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <style>
+    body{
+      background-color: black;
+    }
+   #container{
+          display: flex;
+      }
+      #input-section{
+          flex:1;
+          margin: 50px;
+   
+      }
+      #output-section{
+        margin-top: 5%;
+        background-color: azure;
+        flex:1;
+        margin-right: 5%;
+        color:blueviolet;
+        box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+      }
+
+
+      h1{
+        color:blue
+      }
+
+
+      #sel{
+        font-size: large;
+        background-color: gold;
+        border-radius: 10px;  
+      }
+
+      .h{
+        margin-left: 40%;
+        color: red;
+      }
+
+
+      h2{
+        color: brown;
+        margin-top: 10%;
+        margin-right: 10%;
+      }
+
+      #middle{
+        position: fixed;
+        margin-left: 45%;
+        margin-top: 5%;
+
+      }
+      
+
+
+
+
+  </style>
+
+  <body>
+    <h1 class="h"> Hello,Lets Translate ...</h1>
+    <hr>
+    <div id="container">
+
+      
+        
+
+      <div id="input-section">
+          <!-- <button onclick="translating()" id="translate-btn">translate</button><br> -->
+          <h1>Press Enter to translate</h1>
+       
+          <textarea id="input-text" type="text"></textarea>
+        <!--Create button that will run translate text function, give id "translate-btn"-->
+        <!--Create input that will accept text to be translated, give id "input-text"-->
+      </div>
+
+      <div id="middle">
+        <select id="sel" >
+          <option value="">Language</option>
+          <option value="en">english</option>
+          <option value="hi">hindi</option>
+          <option value="ar">arabic</option>
+          <option value="es">spanish</option>
+          <option value="zh">chinese</option>
+          <option value="ru">russian</option>
+          <option value="ja">japanese</option>
+          <option value="nl">dutch</option>
+          <option value="fr">french</option>
+          <option value="it">italian</option>
+          <option value="tr">turkish</option>
+        </select>
+      </div>
+      <h2>
+        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      </h2>
+      
+
+      <div id="output-section">
+        
+        <p id="translated-text">
+          <!--Show translated text here-->
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+document.querySelector("#input-text").addEventListener("keypress",translating)
+async function translating(e){
+
+
+
+
+    try{
+      if(e.key==="Enter"){
+
+     let lang= document.querySelector("#sel").value
+   
+   let input=document.querySelector("#input-text").value
+   let res=await fetch("https://libretranslate.de/translate",{
+
+method:"POST",
+
+body: JSON.stringify({
+    q:input,
+    source:"en",
+    target:lang,
+    format:"text"
+
+
+}),
+
+headers:{
+   "content-Type":"application/json"
+},
+
+})
+
+
+let data= await res.json()
+console.log(data)
+document.querySelector("#translated-text").textContent=data.translatedText
+
+}
+    }
+
+    catch(err){
+        console.log(err)
+    }
+
+
+}
+</script>
